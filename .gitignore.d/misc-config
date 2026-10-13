@@ -1,0 +1,7 @@
+*
+!/.gitignore.d
+!/.gitignore.d/misc-config
+!/.config/kanata/*
+!/.config/systemd/user/kanata.service
+!/README.md
+!/UNLICENSE

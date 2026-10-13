@@ -1,0 +1,55 @@
+(defcfg
+  process-unmapped-keys yes
+)
+
+;; Generic 60% QWERTY layout
+(defsrc
+  esc  f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12  del
+  grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
+  tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
+  caps a    s    d    f    g    h    j    k    l    ;    '    ret
+  lsft z    x    c    v    b    n    m    ,    .    /    rsft
+  lctl lalt lmet           spc            rmet ralt left down up   rght
+)
+
+;; Define aliases (Mod-Tap, Layer-Tap, and Caps Word)
+(defalias
+  ;; LT(1, KC_ESC) - Tap for Escape, Hold for Layer 1 (nav)
+  cap_nav (tap-hold 200 200 esc (layer-while-held nav))
+
+  ;; LCTL_T(KC_Z) - Tap for 'z', Hold for Left Control
+  z_lctl  (tap-hold 200 200 z lctl)
+
+  ;; RCTL_T(KC_SLSH) - Tap for '/', Hold for Right Control
+  slsh_rctl (tap-hold 200 200 / rctl)
+
+  ;; Caps Word with a 3000ms idle timeout
+  cw (caps-word 3000)
+)
+
+;; Define Chords (Both Shifts -> Caps Word)
+(defchords caps-word-chord 200
+  (lsft)        lsft
+  (rsft)        rsft
+  (lsft rsft)   @cw
+)
+
+;; Base Layer (Layer 0)
+(deflayer base
+  esc  f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12  del
+  grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
+  tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
+  @cap_nav a s   d    f    g    h    j    k    l    ;    '    ret
+  (chord caps-word-chord lsft) @z_lctl x c v b n m , . @slsh_rctl (chord caps-word-chord rsft)
+  lctl lalt lmet           spc            rmet ralt left down up   rght
+)
+
+;; Navigation Layer (Layer 1)
+(deflayer nav
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    left down up   rght _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _              _              _    _    _    _    _    _
+)

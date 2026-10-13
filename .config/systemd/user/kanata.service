@@ -1,0 +1,12 @@
+[Unit]
+Description=Kanata Key Remapper Service
+Documentation=https://github.com/jtroo/kanata
+
+[Service]
+Type=simple
+ExecStart=%h/.cargo/bin/kanata -c %h/.config/kanata/qwerty.kbd
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=default.target
